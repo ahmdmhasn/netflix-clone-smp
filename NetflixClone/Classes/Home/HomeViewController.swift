@@ -14,6 +14,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource {
         super.viewDidLoad()
         view.addSubview(collectionView)
         
+        
         let nibName = "\(SearchCollectionViewCell.self)"
         collectionView.register(UINib(nibName: nibName, bundle: nil), forCellWithReuseIdentifier: nibName)
         let headerNibName = "\(HeaderCollectionReusableView.self)"
