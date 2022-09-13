@@ -28,6 +28,16 @@ class HomeViewController: UIViewController, UICollectionViewDataSource {
     
     // MARK: Lifecycle
     
+    // MARK: Properties
+    
+    private let remote = DiscoverMoviesRemote()
+    private var list: [Movie] = []
+    private var currentPage = 1
+    private var hasMoreMovies = true
+    private var isFetching = false
+    
+    // MARK: Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -88,7 +98,7 @@ extension HomeViewController {
         
         //Create Section
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .paging
+//        section.orthogonalScrollingBehavior = .paging
         
         // Create Supplementary Item
         let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
