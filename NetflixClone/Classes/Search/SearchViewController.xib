@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchViewController" customModule="NetflixClone" customModuleProvider="target">
+            <connections>
+                <outlet property="searchCollectionView" destination="aLY-Nv-KfM" id="x5o-Yh-cYl"/>
+                <outlet property="view" destination="uSt-2c-9Fl" id="gjL-Na-YwI"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="uSt-2c-9Fl">
+            <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="tp5-41-XEZ">
+                    <rect key="frame" x="0.0" y="47" width="390" height="763"/>
+                    <subviews>
+                        <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="f3U-vD-ceW">
+                            <rect key="frame" x="0.0" y="0.0" width="390" height="46"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="46" id="Td8-2p-zpf"/>
+                            </constraints>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="aLY-Nv-KfM">
+                            <rect key="frame" x="0.0" y="46" width="390" height="717"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="RY0-aj-TKE">
+                                <size key="itemSize" width="128" height="128"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="JDj-3T-uHb"/>
+                    <constraints>
+                        <constraint firstItem="f3U-vD-ceW" firstAttribute="top" secondItem="JDj-3T-uHb" secondAttribute="top" id="fke-Jl-DCM"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="ErT-p4-Qh6"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="ErT-p4-Qh6" firstAttribute="trailing" secondItem="tp5-41-XEZ" secondAttribute="trailing" id="LA0-1q-vJD"/>
+                <constraint firstItem="tp5-41-XEZ" firstAttribute="leading" secondItem="ErT-p4-Qh6" secondAttribute="leading" id="PKn-Ak-xeu"/>
+                <constraint firstItem="ErT-p4-Qh6" firstAttribute="bottom" secondItem="tp5-41-XEZ" secondAttribute="bottom" id="hX9-vx-Ah6"/>
+                <constraint firstItem="tp5-41-XEZ" firstAttribute="top" secondItem="ErT-p4-Qh6" secondAttribute="top" id="nHo-2B-eCf"/>
+            </constraints>
+            <point key="canvasLocation" x="-757" y="-1305"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
