@@ -8,10 +8,32 @@
 import UIKit
 
 class HomeViewController: UIViewController, UICollectionViewDataSource {
+    
+    enum Defaults {
+        static let moviesPerPage = 20
+    }
+    
+    // MARK: Outlets
+    
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+    private let secondView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+
+    // MARK: Properties
+    
+    private let remote = DiscoverMoviesRemote()
+    private var list: [Movie] = []
+    private var currentPage = 1
+    private var hasMoreMovies = true
+    private var isFetching = false
+    
+    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        fetchNewPages()
+        
         view.addSubview(collectionView)
         
         let nibName = "\(SearchCollectionViewCell.self)"
@@ -21,19 +43,48 @@ class HomeViewController: UIViewController, UICollectionViewDataSource {
         collectionView.frame = view.bounds
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
+        collectionView.delegate = self
     }
-    
+}
+
+// MARK: Networking
+//
+extension HomeViewController {
+
+    func fetchNewPages() {
+        guard !isFetching else { return }
+        isFetching = true
+        Task {
+            do {
+                let movies = try await remote.discoverMovies(at: currentPage)
+                self.list.append(contentsOf: movies)
+                self.currentPage += 1
+                self.hasMoreMovies = movies.count > 0
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            } catch {
+                print("❌ Error: \(error)")
+            }
+            isFetching = false
+        }
+    }
+}
+
+// MARK: Layout
+//
+extension HomeViewController {
     static func createLayout() -> UICollectionViewCompositionalLayout {
         // Create Item
         let item = NSCollectionLayoutItem(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1))
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                               heightDimension: .fractionalHeight(1))
         )
         
         // Create Group
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(2/5)),
-            repeatingSubitem: item, count: 2
-        )
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .absolute(150)), subitems: [item])
         
         //Create Section
         let section = NSCollectionLayoutSection(group: group)
@@ -47,17 +98,19 @@ class HomeViewController: UIViewController, UICollectionViewDataSource {
         
         return UICollectionViewCompositionalLayout(section: section)
     }
-
 }
 
 extension HomeViewController {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return list.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let collectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SearchCollectionViewCell.self)", for: indexPath) as! SearchCollectionViewCell
-        return collectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SearchCollectionViewCell.self)", for: indexPath) as! SearchCollectionViewCell
+        let item = list[indexPath.row]
+        let imageUrl = "https://image.tmdb.org/t/p/w500/\(item.posterPath ?? "")"
+        cell.configure(imageUrl: imageUrl, title: item.title ?? "")
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -65,4 +118,13 @@ extension HomeViewController {
             return headerView
         }
     
+}
+
+extension HomeViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == (list.count - 1) && hasMoreMovies {
+            fetchNewPages()
+        }
+    }
 }
