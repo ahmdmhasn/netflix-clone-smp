@@ -8,13 +8,12 @@
 import Foundation
 
 class DiscoverMoviesRemote {
+    typealias config = NetworkConfiguration
     
     let networking: NetworkingManager = .shared
-    
-    /// https://api.themoviedb.org/3/discover/movie?api_key=6e902ca7ab53142340b3b09e3746bfcc&page=1
-    ///
     func discoverMovies(at page: Int) async throws -> [Movie] {
-        let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=6e902ca7ab53142340b3b09e3746bfcc&page=\(page)")!
+        let url = URL(string:"\(config.baseURL)3/discover/movie?api_key=\(config.apiKey)&page=\(page)")!
+        
         let urlRequest = URLRequest(url: url)
         let responseModel = try await networking.responseData(urlRequest) as PaginatedMovie
         return responseModel.results

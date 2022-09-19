@@ -16,7 +16,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource {
     // MARK: Outlets
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
-    
+    private let secondView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+
     // MARK: Properties
     
     private let remote = DiscoverMoviesRemote()
@@ -54,18 +55,18 @@ extension HomeViewController {
         guard !isFetching else { return }
         isFetching = true
         Task {
-            isFetching = false
             do {
                 let movies = try await remote.discoverMovies(at: currentPage)
                 self.list.append(contentsOf: movies)
                 self.currentPage += 1
-                self.hasMoreMovies = movies.count == Defaults.moviesPerPage
+                self.hasMoreMovies = movies.count > 0
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
             } catch {
                 print("❌ Error: \(error)")
             }
+            isFetching = false
         }
     }
 }
@@ -87,7 +88,7 @@ extension HomeViewController {
         
         //Create Section
         let section = NSCollectionLayoutSection(group: group)
-//        section.orthogonalScrollingBehavior = .paging
+        section.orthogonalScrollingBehavior = .paging
         
         // Create Supplementary Item
         let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
