@@ -89,4 +89,6 @@ fastlane/test_output
 
 iOSInjectionProject/
 
-NetflixClone/Classes/Networking/NetworkConfiguration.swift
+# Netowkring configurations like API keys
+
+NetworkConfiguration.swift
