@@ -15,7 +15,7 @@ class DiscoverMoviesRemote {
         let url = URL(string:"\(config.baseURL)discover/movie?api_key=\(config.apiKey)&page=\(page)")!
         
         let urlRequest = URLRequest(url: url)
-        let responseModel = try await networking.responseData(urlRequest) as PaginatedMovie
+        let responseModel = try await networking.responseData(urlRequest) as PaginatedList<Movie>
         return responseModel.results
     }
     
@@ -34,7 +34,7 @@ class DiscoverMoviesRemote {
         let url = URL(string: "\(config.baseURL)trending/\(type.rawValue)/\(time.rawValue)?api_key=\(config.apiKey)&page=\(page)")!
         let urlRequest = URLRequest(url: url)
         print(url.description)
-        let responseModel = try await networking.responseData(urlRequest) as PaginatedMovie
+        let responseModel = try await networking.responseData(urlRequest) as PaginatedList<Movie>
         return responseModel.results
     }
     
@@ -42,14 +42,15 @@ class DiscoverMoviesRemote {
         let url = URL(string: "\(config.baseURL)trending/\(type.rawValue)/\(time.rawValue)?api_key=\(config.apiKey)&page=\(page)")!
         let urlRequest = URLRequest(url: url)
         print(url.description)
-        let responseModel = try await networking.responseData(urlRequest) as PaginatedMovie
+        let responseModel = try await networking.responseData(urlRequest) as PaginatedList<Movie>
         return responseModel.results
     }
     
     func topMovies(at page: Int) async throws -> [Movie] {
         let url = URL(string:"\(config.baseURL)discover/movie?api_key=\(config.apiKey)&page=\(page)&sort_by=vote_count.desc")!
         let urlRequest = URLRequest(url: url)
-        let responseModel = try await networking.responseData(urlRequest) as PaginatedMovie
+        let responseModel = try await networking.responseData(urlRequest) as PaginatedList<Movie>
         return responseModel.results
     }
+    
 }

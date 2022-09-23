@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
 class PosterCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "Poster-Cell-Reuse-Identifier"
     let button = UIButton()
@@ -62,11 +61,7 @@ extension PosterCollectionViewCell {
         self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.contentView.layer.cornerRadius).cgPath
     }
     func configureImage(imageUrl: String) {
-        image.kf.indicatorType = .activity
-        image.kf.setImage(
-            with: URL(string: imageUrl),
-            options: [
-                .transition(.fade(1)),
-            ])
+        image.setImage(with: imageUrl)
     }
 }
+

@@ -73,20 +73,6 @@ struct Item: Sendable, Hashable {
 
 
 // MARK: Actor
-// MARK: - Welcome
-struct ActorResponse: Codable {
-    let page: Int
-    let results: [Actor]
-    let totalPages, totalResults: Int
-
-    enum CodingKeys: String, CodingKey {
-        case page, results
-        case totalPages = "total_pages"
-        case totalResults = "total_results"
-    }
-}
-
-// MARK: - Result
 struct Actor: Codable {
     let adult: Bool
     let gender, id: Int

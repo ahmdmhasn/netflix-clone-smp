@@ -25,7 +25,7 @@
 		75F1DA2628DE25D400B38AAA /* UIImageView+ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F1DA2528DE25D400B38AAA /* UIImageView+ImageLoading.swift */; };
 		AAA32DA728D1374700DE8ACA /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA32DA628D1374700DE8ACA /* NetworkingManager.swift */; };
 		AAA32DAA28D143A900DE8ACA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = AAA32DA928D143A900DE8ACA /* Kingfisher */; };
-		AAA32DAC28D1469F00DE8ACA /* PaginatedMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA32DAB28D1469F00DE8ACA /* PaginatedMovie.swift */; };
+		AAA32DAC28D1469F00DE8ACA /* PaginatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA32DAB28D1469F00DE8ACA /* PaginatedList.swift */; };
 		AAA32DAE28D146B000DE8ACA /* DiscoverMoviesRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA32DAD28D146B000DE8ACA /* DiscoverMoviesRemote.swift */; };
 		AAAAFE7D28C66F6C00A174BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAFE7C28C66F6C00A174BC /* AppDelegate.swift */; };
 		AAAAFE8628C66F6D00A174BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAAAFE8528C66F6D00A174BC /* Assets.xcassets */; };
@@ -50,7 +50,7 @@
 		75AB73C728D909E4000F9D3B /* PosterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PosterCollectionViewCell.swift; path = NetflixClone/Classes/Networking/PosterCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
 		75F1DA2528DE25D400B38AAA /* UIImageView+ImageLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ImageLoading.swift"; sourceTree = "<group>"; };
 		AAA32DA628D1374700DE8ACA /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
-		AAA32DAB28D1469F00DE8ACA /* PaginatedMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatedMovie.swift; sourceTree = "<group>"; };
+		AAA32DAB28D1469F00DE8ACA /* PaginatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatedList.swift; sourceTree = "<group>"; };
 		AAA32DAD28D146B000DE8ACA /* DiscoverMoviesRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverMoviesRemote.swift; sourceTree = "<group>"; };
 		AAAAFE7928C66F6C00A174BC /* NetflixClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetflixClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAAFE7C28C66F6C00A174BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -74,8 +74,8 @@
 		750B0F7F28D121DA005A5CBC /* More */ = {
 			isa = PBXGroup;
 			children = (
-				750B0F8228D12236005A5CBC /* MoreViewController.swift */,
 				750B0F8328D12236005A5CBC /* MoreViewController.xib */,
+				750B0F8228D12236005A5CBC /* MoreViewController.swift */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -161,6 +161,36 @@
 				75F1DA2528DE25D400B38AAA /* UIImageView+ImageLoading.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		AAA32DAF28D146C000DE8ACA /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				750B0F7F28D121DA005A5CBC /* More */,
+				75717D3D28CE95D8008341A0 /* Favourites */,
+				75717D3328CE215E008341A0 /* Search */,
+				751414EE28CA7D5A006BDB13 /* TabBar */,
+				751414E928CA7CFB006BDB13 /* Home */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		AAA32DB028D146CA00DE8ACA /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				AAA32DA628D1374700DE8ACA /* NetworkingManager.swift */,
+				AAA32DAD28D146B000DE8ACA /* DiscoverMoviesRemote.swift */,
+				75AB73C528D8BBEC000F9D3B /* NetworkConfiguration.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		AAA32DB128D146D400DE8ACA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AAA32DAB28D1469F00DE8ACA /* PaginatedList.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		AAAAFE7028C66F6C00A174BC = {
@@ -281,7 +311,7 @@
 				75717D4028CE960B008341A0 /* FavouritesViewController.swift in Sources */,
 				751414F028CA7D81006BDB13 /* TabBarController.swift in Sources */,
 				75AB73C828D909E4000F9D3B /* PosterCollectionViewCell.swift in Sources */,
-				AAA32DAC28D1469F00DE8ACA /* PaginatedMovie.swift in Sources */,
+				AAA32DAC28D1469F00DE8ACA /* PaginatedList.swift in Sources */,
 				AAA32DAE28D146B000DE8ACA /* DiscoverMoviesRemote.swift in Sources */,
 				AAAAFE7D28C66F6C00A174BC /* AppDelegate.swift in Sources */,
 				75717D3628CE2171008341A0 /* SearchViewController.swift in Sources */,
