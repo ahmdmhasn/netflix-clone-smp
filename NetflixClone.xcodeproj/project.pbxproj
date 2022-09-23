@@ -22,6 +22,7 @@
 		75717D4528CE97F6008341A0 /* FavouritesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75717D4328CE97F6008341A0 /* FavouritesTableViewCell.xib */; };
 		75AB73C628D8BBEC000F9D3B /* NetworkConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AB73C528D8BBEC000F9D3B /* NetworkConfiguration.swift */; };
 		75AB73C828D909E4000F9D3B /* PosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AB73C728D909E4000F9D3B /* PosterCollectionViewCell.swift */; };
+		75F1DA2628DE25D400B38AAA /* UIImageView+ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F1DA2528DE25D400B38AAA /* UIImageView+ImageLoading.swift */; };
 		AAA32DA728D1374700DE8ACA /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA32DA628D1374700DE8ACA /* NetworkingManager.swift */; };
 		AAA32DAA28D143A900DE8ACA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = AAA32DA928D143A900DE8ACA /* Kingfisher */; };
 		AAA32DAC28D1469F00DE8ACA /* PaginatedMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA32DAB28D1469F00DE8ACA /* PaginatedMovie.swift */; };
@@ -47,6 +48,7 @@
 		75717D4328CE97F6008341A0 /* FavouritesTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavouritesTableViewCell.xib; sourceTree = "<group>"; };
 		75AB73C528D8BBEC000F9D3B /* NetworkConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfiguration.swift; sourceTree = "<group>"; };
 		75AB73C728D909E4000F9D3B /* PosterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PosterCollectionViewCell.swift; path = NetflixClone/Classes/Networking/PosterCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
+		75F1DA2528DE25D400B38AAA /* UIImageView+ImageLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ImageLoading.swift"; sourceTree = "<group>"; };
 		AAA32DA628D1374700DE8ACA /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		AAA32DAB28D1469F00DE8ACA /* PaginatedMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatedMovie.swift; sourceTree = "<group>"; };
 		AAA32DAD28D146B000DE8ACA /* DiscoverMoviesRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverMoviesRemote.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				AAA32DAF28D146C000DE8ACA /* Scenes */,
 				AAA32DB028D146CA00DE8ACA /* Networking */,
 				AAA32DB128D146D400DE8ACA /* Models */,
+				75F1DA2728DE25D900B38AAA /* Extensions */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -152,34 +155,12 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		AAA32DAF28D146C000DE8ACA /* Scenes */ = {
+		75F1DA2728DE25D900B38AAA /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				750B0F7F28D121DA005A5CBC /* More */,
-				75717D3D28CE95D8008341A0 /* Favourites */,
-				75717D3328CE215E008341A0 /* Search */,
-				751414EE28CA7D5A006BDB13 /* TabBar */,
-				751414E928CA7CFB006BDB13 /* Home */,
+				75F1DA2528DE25D400B38AAA /* UIImageView+ImageLoading.swift */,
 			);
-			path = Scenes;
-			sourceTree = "<group>";
-		};
-		AAA32DB028D146CA00DE8ACA /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				AAA32DA628D1374700DE8ACA /* NetworkingManager.swift */,
-				AAA32DAD28D146B000DE8ACA /* DiscoverMoviesRemote.swift */,
-				75AB73C528D8BBEC000F9D3B /* NetworkConfiguration.swift */,
-			);
-			path = Networking;
-			sourceTree = "<group>";
-		};
-		AAA32DB128D146D400DE8ACA /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				AAA32DAB28D1469F00DE8ACA /* PaginatedMovie.swift */,
-			);
-			path = Models;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		AAAAFE7028C66F6C00A174BC = {
@@ -293,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75AB73C628D8BBEC000F9D3B /* NetworkConfiguration.swift in Sources */,
+				75F1DA2628DE25D400B38AAA /* UIImageView+ImageLoading.swift in Sources */,
 				750B0F8428D12236005A5CBC /* MoreViewController.swift in Sources */,
 				75717D4428CE97F6008341A0 /* FavouritesTableViewCell.swift in Sources */,
 				AAA32DA728D1374700DE8ACA /* NetworkingManager.swift in Sources */,
