@@ -92,26 +92,6 @@ extension HomeViewController {
             cell.configureImage(imageUrl: imageUrl)
             cell.applyEffects(for: section)
             return cell
-//            switch section {
-//            case .featured:
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(PosterCollectionViewCell.reuseIdentifier)", for: indexPath) as! PosterCollectionViewCell
-//                let imageUrl = "https://image.tmdb.org/t/p/w500/\(movie.posterPath ?? "")"
-//                cell.configureImage(imageUrl: imageUrl)
-//                cell.applyEffects(for: section)
-//                return cell
-//            case .trending, .discover, .top:
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(PosterCollectionViewCell.reuseIdentifier)", for: indexPath) as! PosterCollectionViewCell
-//                let imageUrl = "https://image.tmdb.org/t/p/w500/\(movie.posterPath ?? "")"
-//                cell.configureImage(imageUrl: imageUrl)
-//                cell.applyEffects(for: section)
-//                return cell
-//            case .actors:
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(PosterCollectionViewCell.reuseIdentifier)", for: indexPath) as! PosterCollectionViewCell
-//                let imageUrl = "https://image.tmdb.org/t/p/w500/\(movie.posterPath ?? "")"
-//                cell.configureImage(imageUrl: imageUrl)
-//                cell.applyEffects(for: section)
-//                return cell
-//            }
         }
         
         let headerRegistration = createSectionHeaderRegistration()
@@ -133,7 +113,6 @@ extension HomeViewController {
     }
 
     func fetchNewPages(for section: Section) {
-//        guard !isFetching else { return }
         isFetching = true
         Task {
             do {
@@ -147,8 +126,6 @@ extension HomeViewController {
                     movies = try await remote.trendingMovies(at: currentPage, type: .tv, time: .day)
                 case .top:
                     movies = try await remote.topMovies(at: currentPage)
-//                case .actors:
-//                    movies = try await remote.trendingMovies(at: currentPage, type: .tv, time: .day)
                 }
                 self.currentPage += 1
                 self.hasMoreMovies = movies.count > 0
@@ -209,8 +186,6 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let snapshot = dataSource.snapshot()
         let section = snapshot.sectionIdentifiers[indexPath.section]
-//        print("Trending: row = \(indexPath.row), items = \(snapshot.numberOfItems(inSection: .trending)-1)")
-//        print("Discover: row = \(indexPath.row), items = \(snapshot.numberOfItems(inSection: .discover)-1)")
         if indexPath.row == (snapshot.numberOfItems(inSection: section)-1) && hasMoreMovies {
             let section = snapshot.sectionIdentifiers[indexPath.section]
             fetchNewPages(for: section)
