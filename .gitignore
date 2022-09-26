@@ -92,3 +92,5 @@ iOSInjectionProject/
 # Netowkring configurations like API keys
 
 NetworkConfiguration.swift
+*.xcuserstate
+NetflixClone/Classes/Scenes/Home/.DS_Store
