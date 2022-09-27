@@ -8,9 +8,9 @@
 import Foundation
 
 // MARK: - PaginatedMovie
-struct PaginatedMovie: Codable {
+struct PaginatedList<T: Decodable>: Decodable {
     let page: Int
-    let results: [Movie]
+    let results: [T]
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {
