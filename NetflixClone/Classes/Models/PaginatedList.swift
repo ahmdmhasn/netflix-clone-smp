@@ -7,7 +7,6 @@
 
 import Foundation
 
-// MARK: - PaginatedMovie
 struct PaginatedList<T: Decodable>: Decodable {
     let page: Int
     let results: [T]
