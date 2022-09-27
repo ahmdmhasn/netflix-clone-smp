@@ -183,7 +183,6 @@ extension HomeViewController {
     }
 }
 extension HomeViewController: UICollectionViewDelegate {
-
     func collectionView(
         _ collectionView: UICollectionView,
         willDisplay cell: UICollectionViewCell,
