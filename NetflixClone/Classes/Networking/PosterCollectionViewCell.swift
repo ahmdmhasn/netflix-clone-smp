@@ -25,29 +25,19 @@ extension PosterCollectionViewCell {
         contentView.addSubview(button)
         image.translatesAutoresizingMaskIntoConstraints = false
         button.addSubview(image)
-        
         let inset: CGFloat = 5
         NSLayoutConstraint.activate([
             button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
             button.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
             button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset),
             button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
-            
             image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
             image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
             image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset),
-            image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
+            image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset)
         ])
-        
     }
-    
     func applyEffects(for section: HomeViewController.Section) {
-//        if section == .actors {
-//            self.contentView.layer.cornerRadius = contentView.frame.height
-//        } else {
-//            self.contentView.layer.cornerRadius = 4.0
-//
-//        }
         self.contentView.layer.cornerRadius = 10.0
         self.contentView.layer.borderWidth = 1.0
         self.contentView.layer.borderColor = UIColor.clear.cgColor
@@ -58,10 +48,12 @@ extension PosterCollectionViewCell {
         self.layer.shadowRadius = 2.0
         self.layer.shadowOpacity = 0.1
         self.layer.masksToBounds = false
-        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.contentView.layer.cornerRadius).cgPath
+        self.layer.shadowPath = UIBezierPath(
+            roundedRect: self.bounds,
+            cornerRadius: self.contentView.layer.cornerRadius
+        ).cgPath
     }
     func configureImage(imageUrl: String) {
         image.setImage(with: imageUrl)
     }
 }
-
