@@ -14,10 +14,10 @@ class TabBarController: UITabBarController {
 
         let homeViewController = makeViewController(controller: HomeViewController(), title: "Home", systemName: "house", tag: 0)
         let searchViewController = makeViewController(controller: SearchViewController(), title: "Search", systemName: "magnifyingglass", tag: 1)
-        let favouritesVieController = makeViewController(controller: FavouritesViewController(), title: "Favourites", systemName: "star", tag: 2)
+        let favouritesViewController = makeViewController(controller: FavouritesViewController(), title: "Favourites", systemName: "star", tag: 2)
         let options = makeViewController(controller: MoreViewController(), title: "More", systemName: "square.and.arrow.up", tag: 3)
-        viewControllers = [homeViewController, searchViewController, favouritesVieController, options]
-        viewControllers = [homeViewController, favouritesVieController, options]
+//        viewControllers = [homeViewController, searchViewController, favouritesViewController, options]
+        viewControllers = [searchViewController, homeViewController, favouritesViewController, options]
 
     }
     func makeViewController(

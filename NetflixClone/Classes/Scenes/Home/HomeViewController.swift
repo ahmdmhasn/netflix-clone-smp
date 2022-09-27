@@ -21,7 +21,6 @@ class HomeViewController: UIViewController {
     var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Movie>! = nil
     private var currentPage = 1
     private var hasMoreMovies = true
-    private var isFetching = false
 
     // MARK: Lifecycle
 
@@ -102,7 +101,6 @@ extension HomeViewController {
     }
 
     func fetchNewPages(for section: Section) {
-        isFetching = true
         Task {
             do {
                 var movies: [Movie]
@@ -122,7 +120,6 @@ extension HomeViewController {
             } catch {
                 print("❌ Error: \(error)")
             }
-            isFetching = false
         }
     }
 }
@@ -131,7 +128,7 @@ extension HomeViewController {
 //
 extension HomeViewController {
     private func createLayout() -> UICollectionViewLayout {
-        let sectionProvider = {(sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment)-> NSCollectionLayoutSection? in
+        let sectionProvider = {(sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             let sectionID = self.dataSource.snapshot().sectionIdentifiers[sectionIndex]
             var item: NSCollectionLayoutItem
             var group: NSCollectionLayoutGroup

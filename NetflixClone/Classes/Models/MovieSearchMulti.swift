@@ -11,7 +11,7 @@ struct MovieSearchMulti: Codable, Hashable {
     let id: Int
     let backdropPath: String?
     let firstAirDate: String?
-    let genreIDS: [Int]
+    let genreIDS: [Int]?
     let mediaType: String?
     let name: String?
     let originCountry: [String]?
