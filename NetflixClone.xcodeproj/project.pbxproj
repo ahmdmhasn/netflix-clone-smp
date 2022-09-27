@@ -10,7 +10,6 @@
 		750B0F8428D12236005A5CBC /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B0F8228D12236005A5CBC /* MoreViewController.swift */; };
 		750B0F8528D12236005A5CBC /* MoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 750B0F8328D12236005A5CBC /* MoreViewController.xib */; };
 		751414EC28CA7D12006BDB13 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751414EA28CA7D12006BDB13 /* HomeViewController.swift */; };
-		751414ED28CA7D12006BDB13 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 751414EB28CA7D12006BDB13 /* HomeViewController.xib */; };
 		751414F028CA7D81006BDB13 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751414EF28CA7D81006BDB13 /* TabBarController.swift */; };
 		75717D3628CE2171008341A0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75717D3428CE2171008341A0 /* SearchViewController.swift */; };
 		75717D3728CE2171008341A0 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75717D3528CE2171008341A0 /* SearchViewController.xib */; };
@@ -36,7 +35,6 @@
 		750B0F8228D12236005A5CBC /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		750B0F8328D12236005A5CBC /* MoreViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoreViewController.xib; sourceTree = "<group>"; };
 		751414EA28CA7D12006BDB13 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		751414EB28CA7D12006BDB13 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		751414EF28CA7D81006BDB13 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		75717D3428CE2171008341A0 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		75717D3528CE2171008341A0 /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
@@ -96,7 +94,6 @@
 			children = (
 				75B6C0B828D0C05B00EB8F47 /* Cells */,
 				751414EA28CA7D12006BDB13 /* HomeViewController.swift */,
-				751414EB28CA7D12006BDB13 /* HomeViewController.xib */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -293,7 +290,6 @@
 				75717D3C28CE7416008341A0 /* SearchCollectionViewCell.xib in Resources */,
 				75717D3728CE2171008341A0 /* SearchViewController.xib in Resources */,
 				750B0F8528D12236005A5CBC /* MoreViewController.xib in Resources */,
-				751414ED28CA7D12006BDB13 /* HomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
