@@ -18,7 +18,6 @@ class NetworkingManager {
                     continuation.resume(throwing: error ?? NSError())
                     return
                 }
-                
                 // Try to parse the data
                 do {
                     let decoded = try JSONDecoder().decode(T.self, from: data)
@@ -30,4 +29,3 @@ class NetworkingManager {
         }
     }
 }
-
