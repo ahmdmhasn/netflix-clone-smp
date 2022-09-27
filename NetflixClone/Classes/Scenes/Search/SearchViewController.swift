@@ -23,11 +23,9 @@ class SearchViewController: UIViewController {
     var collectionView: UICollectionView! = nil
     // MARK: Data sources
     var dataSource: UICollectionViewDiffableDataSource<Section, MovieSearchMulti>! = nil
-    var currentSnapshot: NSDiffableDataSourceSnapshot<Section, MovieSearchMulti>! = nil
     override func viewDidLoad() {
         super.viewDidLoad()
         configureHierarchy()
-        print("SFDFPDOJPO")
         configureDataSource()
     }
 }
@@ -65,6 +63,9 @@ extension SearchViewController {
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -inset),
         ])
     }
+}
+// MARK: - Data Source
+extension SearchViewController {
     private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
         <Section, MovieSearchMulti>(collectionView: collectionView) {
@@ -73,44 +74,43 @@ extension SearchViewController {
                 withReuseIdentifier: "\(SearchCollectionViewCell.reuseIdentifier)",
                 for: indexPath) as? SearchCollectionViewCell else { fatalError("Cannot Create cell") }
             let imageUrl = "https://image.tmdb.org/t/p/w500/\(movie.posterPath ?? "")"
-            cell.configureCell(cellHeight: CGFloat(Defaults.imageHeight), title: movie.title ?? "Unknown" )
+            cell.configureCell(title: movie.title ?? "Unknown" )
             cell.configureImage(imageUrl: imageUrl)
             return cell
         }
+        setDataSource(movies: [])
+    }
+    func setDataSource(movies: [MovieSearchMulti]) {
         // Initialize the data sources.
-        currentSnapshot = NSDiffableDataSourceSnapshot<Section, MovieSearchMulti>()
-        currentSnapshot.appendSections([.mainResults])
-        currentSnapshot.appendItems([])
-        dataSource.apply(currentSnapshot, animatingDifferences: false)
-    }
-    func updateDataSource(with movies: [MovieSearchMulti], for section: Section) {
-        var snapshot = dataSource.snapshot()
-        snapshot.appendItems(movies, toSection: section)
-        dataSource.apply(snapshot, animatingDifferences: false)
-    }
-    func resetDataSource() {
-        var snapshot = dataSource.snapshot()
-        snapshot.deleteAllItems()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, MovieSearchMulti>()
         snapshot.appendSections([.mainResults])
-//        snapshot.deleteItems()
+        snapshot.appendItems(movies)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
+    func updateDataSource(movies: [MovieSearchMulti]) {
+        var snapshot = dataSource.snapshot()
+        snapshot.appendItems(movies)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+// MARK: - Networking
+extension SearchViewController {
     func newQuery(for section: Section) {
-        if query.count == 0 { return }
+        guard query.count == 0 else { return }
         Task {
             do {
                 // Remove all existing movies.
-//                updateDataSource(with: [], for: section)
                 collectionView.setContentOffset(.zero, animated: false)
-                resetDataSource()
                 var movies: [MovieSearchMulti]
                 self.currentPage = 1
+                setDataSource(movies: [])
                 fetchNewPages(for: section)
             }
         }
     }
     func fetchNewPages(for section: Section) {
-        if query.count == 0 { return }
+        guard query.count == 0 else { return }
         Task {
             do {
                 var movies: [MovieSearchMulti]
@@ -120,12 +120,13 @@ extension SearchViewController {
                 }
                 self.currentPage += 1
                 self.hasMoreMovies = movies.count > 0
-                updateDataSource(with: movies, for: section)
+                updateDataSource(movies: movies)
             } catch {
                 print("❌ Error: \(error)")
             }
         }
     }
+
 }
 
 extension SearchViewController: UICollectionViewDelegate {

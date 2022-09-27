@@ -8,7 +8,7 @@
 import UIKit
 class PosterCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "Poster-Cell-Reuse-Identifier"
-    let button = UIButton()
+//    let button = UIButton()
     let image = UIImageView()
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,16 +21,10 @@ class PosterCollectionViewCell: UICollectionViewCell {
 
 extension PosterCollectionViewCell {
     func configureCell() {
-        button.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(button)
         image.translatesAutoresizingMaskIntoConstraints = false
-        button.addSubview(image)
+        contentView.addSubview(image)
         let inset: CGFloat = 5
         NSLayoutConstraint.activate([
-            button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
-            button.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
-            button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset),
-            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
             image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
             image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
             image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset),

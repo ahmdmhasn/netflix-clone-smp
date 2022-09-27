@@ -13,6 +13,8 @@
 		751414F028CA7D81006BDB13 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751414EF28CA7D81006BDB13 /* TabBarController.swift */; };
 		754E88D828E3243900636BC5 /* MovieSearchMulti.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754E88D728E3243900636BC5 /* MovieSearchMulti.swift */; };
 		754E88DA28E324BD00636BC5 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754E88D928E324BD00636BC5 /* Movie.swift */; };
+		754E88DE28E3A15B00636BC5 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754E88DC28E3A15B00636BC5 /* MovieDetailsViewController.swift */; };
+		754E88DF28E3A15B00636BC5 /* MovieDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 754E88DD28E3A15B00636BC5 /* MovieDetailsViewController.xib */; };
 		75717D3628CE2171008341A0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75717D3428CE2171008341A0 /* SearchViewController.swift */; };
 		75717D3B28CE7416008341A0 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75717D3928CE7416008341A0 /* SearchCollectionViewCell.swift */; };
 		75717D3C28CE7416008341A0 /* SearchCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75717D3A28CE7416008341A0 /* SearchCollectionViewCell.xib */; };
@@ -39,6 +41,8 @@
 		751414EF28CA7D81006BDB13 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		754E88D728E3243900636BC5 /* MovieSearchMulti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchMulti.swift; sourceTree = "<group>"; };
 		754E88D928E324BD00636BC5 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		754E88DC28E3A15B00636BC5 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
+		754E88DD28E3A15B00636BC5 /* MovieDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieDetailsViewController.xib; sourceTree = "<group>"; };
 		75717D3428CE2171008341A0 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		75717D3928CE7416008341A0 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		75717D3A28CE7416008341A0 /* SearchCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -108,6 +112,15 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
+		754E88DB28E3A12100636BC5 /* MovieDetails */ = {
+			isa = PBXGroup;
+			children = (
+				754E88DC28E3A15B00636BC5 /* MovieDetailsViewController.swift */,
+				754E88DD28E3A15B00636BC5 /* MovieDetailsViewController.xib */,
+			);
+			path = MovieDetails;
+			sourceTree = "<group>";
+		};
 		75717D3328CE215E008341A0 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,6 +177,7 @@
 		AAA32DAF28D146C000DE8ACA /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				754E88DB28E3A12100636BC5 /* MovieDetails */,
 				750B0F7F28D121DA005A5CBC /* More */,
 				75717D3D28CE95D8008341A0 /* Favourites */,
 				75717D3328CE215E008341A0 /* Search */,
@@ -290,6 +304,7 @@
 				AAAAFE8628C66F6D00A174BC /* Assets.xcassets in Resources */,
 				75717D4528CE97F6008341A0 /* FavouritesTableViewCell.xib in Resources */,
 				75717D4128CE960B008341A0 /* FavouritesViewController.xib in Resources */,
+				754E88DF28E3A15B00636BC5 /* MovieDetailsViewController.xib in Resources */,
 				75717D3C28CE7416008341A0 /* SearchCollectionViewCell.xib in Resources */,
 				750B0F8528D12236005A5CBC /* MoreViewController.xib in Resources */,
 			);
@@ -338,6 +353,7 @@
 				751414EC28CA7D12006BDB13 /* HomeViewController.swift in Sources */,
 				754E88D828E3243900636BC5 /* MovieSearchMulti.swift in Sources */,
 				75717D3B28CE7416008341A0 /* SearchCollectionViewCell.swift in Sources */,
+				754E88DE28E3A15B00636BC5 /* MovieDetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

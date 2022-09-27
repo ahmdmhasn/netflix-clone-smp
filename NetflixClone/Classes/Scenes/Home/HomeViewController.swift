@@ -94,7 +94,7 @@ extension HomeViewController {
         dataSource.apply(currentSnapshot, animatingDifferences: false)
     }
 
-    func updateDataSource(with movies: [Movie], for section: Section){
+    func updateDataSource(with movies: [Movie], for section: Section) {
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(movies, toSection: section)
         dataSource.apply(snapshot, animatingDifferences: false)
@@ -128,7 +128,7 @@ extension HomeViewController {
 //
 extension HomeViewController {
     private func createLayout() -> UICollectionViewLayout {
-        let sectionProvider = {(sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+        let sectionProvider = {(sectionIndex: Int, _: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             let sectionID = self.dataSource.snapshot().sectionIdentifiers[sectionIndex]
             var item: NSCollectionLayoutItem
             var group: NSCollectionLayoutGroup
@@ -180,7 +180,6 @@ extension HomeViewController {
     }
 }
 extension HomeViewController: UICollectionViewDelegate {
-
     func collectionView(
         _ collectionView: UICollectionView,
         willDisplay cell: UICollectionViewCell,
@@ -192,5 +191,15 @@ extension HomeViewController: UICollectionViewDelegate {
             let section = snapshot.sectionIdentifiers[indexPath.section]
             fetchNewPages(for: section)
         }
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let snapshot = dataSource.snapshot()
+        let section = snapshot.sectionIdentifiers[indexPath.section]
+        let items = snapshot.itemIdentifiers(inSection: section)
+        let movie = items[indexPath.row]
+        
+        let viewController = MovieDetailsViewController(movie: movie)
+        present(viewController, animated: true)
+        
     }
 }
