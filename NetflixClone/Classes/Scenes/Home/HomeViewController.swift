@@ -179,10 +179,8 @@ extension HomeViewController: UICollectionViewDelegate {
     ) {
         let snapshot = dataSource.snapshot()
         let section = snapshot.sectionIdentifiers[indexPath.section]
-//        if indexPath.row == (snapshot.numberOfItems(inSection: section)-1) && hasMoreMovies {
         if indexPath.row == (snapshot.numberOfItems(inSection: section)-1) {
             let section = snapshot.sectionIdentifiers[indexPath.section]
-//            fetchNewPages(for: section)
             viewModel.fetchNewPages(for: section, at: currentPage)
         }
     }

@@ -18,12 +18,8 @@ class SearchViewModel {
     enum Section: String, CaseIterable {
         case mainResults = "Main Results"
     }
-    
-    
+
 }
-
-
-
 
 // MARK: - User intent(s)
 extension SearchViewModel {
@@ -31,19 +27,7 @@ extension SearchViewModel {
         var newMovies: [MovieSearchMulti]
         var section: Section
     }
-//    func newQuery(for section: Section, at page: Int) {
-//        guard query.count > 0 else { return }
-//        Task {
-//            do {
-//                // Remove all existing movies.
-//                collectionView.setContentOffset(.zero, animated: false)
-//                var movies: [MovieSearchMulti]
-//                self.currentPage = 1
-//                setDataSource(movies: [])
-//                fetchNewPages(for: section)
-//            }
-//        }
-//    }
+
     func fetchNewPages(for section: Section, at page: Int, with query: [String]) {
         guard query.count > 0 else { return }
         Task {

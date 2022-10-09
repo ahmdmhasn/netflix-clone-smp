@@ -19,8 +19,6 @@ class TabBarController: UITabBarController {
         let favouritesViewController = makeViewController(controller: FavouritesViewController(), title: "Favourites", systemName: "star", tag: 2)
         let options = makeViewController(controller: MoreViewController(), title: "More", systemName: "square.and.arrow.up", tag: 3)
         viewControllers = [homeViewController, searchViewController, favouritesViewController, options]
-//        viewControllers = [searchViewController, favouritesViewController, options]
-
     }
     func makeViewController(
         controller: UIViewController,
