@@ -6,40 +6,62 @@
 //
 
 import UIKit
+import Combine
 
 class HomeViewController: UIViewController {
-
-    enum Defaults {
-        static let moviesPerPage = 4
-    }
-    fileprivate let sectionHeaderElementKind = "SectionHeader"
-    var collectionView: UICollectionView! = nil
     // MARK: Properties
+    typealias Section = HomeViewModel.Section
+    
+    private var viewModel: HomeViewModel
+    private var subscribers: [AnyCancellable] = []
 
-    private let remote = DiscoverMoviesRemote()
     var dataSource: UICollectionViewDiffableDataSource<Section, Movie>! = nil
     var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Movie>! = nil
+    fileprivate let sectionHeaderElementKind = "SectionHeader"
+    var collectionView: UICollectionView! = nil
     private var currentPage = 1
-    private var hasMoreMovies = true
+    
 
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         configureHierarchy()
-        Section.allCases.forEach { section in
-            fetchNewPages(for: section)
-        }
+        initializeSections()
         configureDataSource()
+        // MARK: Receivers
+        viewModel.$result
+            .receive(on: DispatchQueue.main)
+            .sink { result in
+                if let result = result {
+                    var snapshot = self.dataSource.snapshot()
+                    snapshot.appendItems(result.newMovies, toSection: result.section)
+                    self.currentPage+=1
+                    self.dataSource.apply(snapshot, animatingDifferences: false)
+                }
+            }
+            .store(in: &subscribers)
     }
 }
+
 extension HomeViewController {
-    enum Section: String, CaseIterable {
-        case featured = "Featured"
-        case discover = "Discover"
-        case trending = "Trending"
-        case top = "Top of All Time"
+    private func initializeSections() {
+        Section.allCases.forEach { section in
+            viewModel.fetchNewPages(for: section, at: currentPage)
+        }
     }
+}
+
+extension HomeViewController {
     private func configureHierarchy() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         collectionView.delegate = self
@@ -54,7 +76,7 @@ extension HomeViewController {
     private func createSectionHeaderRegistration() -> UICollectionView.SupplementaryRegistration<UICollectionViewListCell> {
         return UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(
             elementKind: sectionHeaderElementKind
-        ) { [weak self] supplementaryView, elementKind, indexPath in
+        ) { [weak self] supplementaryView, _, indexPath in
             guard let self = self else { return }
             let sectionID = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             supplementaryView.configurationUpdateHandler = { supplementaryView, state in
@@ -71,7 +93,7 @@ extension HomeViewController {
     }
     private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
-        <Section, Movie>(collectionView: collectionView){
+        <Section, Movie>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, movie: Movie) -> UICollectionViewCell? in
             let section = Section.allCases[indexPath.section]
             guard let cell = collectionView.dequeueReusableCell(
@@ -83,49 +105,19 @@ extension HomeViewController {
             return cell
         }
         let headerRegistration = createSectionHeaderRegistration()
-        dataSource.supplementaryViewProvider = { collectionView, elementKind, indexPath in
+        dataSource.supplementaryViewProvider = { collectionView, _, indexPath in
             return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
         }
-        
+
         // Initialize the data sources.
         currentSnapshot = NSDiffableDataSourceSnapshot<Section, Movie>()
         currentSnapshot.appendSections([.featured, .trending, .discover, .top])
         currentSnapshot.appendItems([])
         dataSource.apply(currentSnapshot, animatingDifferences: false)
     }
-
-    func updateDataSource(with movies: [Movie], for section: Section) {
-        var snapshot = dataSource.snapshot()
-        snapshot.appendItems(movies, toSection: section)
-        dataSource.apply(snapshot, animatingDifferences: false)
-    }
-
-    func fetchNewPages(for section: Section) {
-        Task {
-            do {
-                var movies: [Movie]
-                switch section {
-                case .featured:
-                    movies = try await remote.featuredMovies(at: currentPage, type: .movie, time: .day)
-                case .discover:
-                    movies = try await remote.discoverMovies(at: currentPage)
-                case .trending:
-                    movies = try await remote.trendingMovies(at: currentPage, type: .tv, time: .day)
-                case .top:
-                    movies = try await remote.topMovies(at: currentPage)
-                }
-                self.currentPage += 1
-                self.hasMoreMovies = movies.count > 0
-                updateDataSource(with: movies, for: section)
-            } catch {
-                print("❌ Error: \(error)")
-            }
-        }
-    }
 }
 
-// MARK: Layout
-//
+// MARK: - Layout
 extension HomeViewController {
     private func createLayout() -> UICollectionViewLayout {
         let sectionProvider = {(sectionIndex: Int, _: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
@@ -187,9 +179,11 @@ extension HomeViewController: UICollectionViewDelegate {
     ) {
         let snapshot = dataSource.snapshot()
         let section = snapshot.sectionIdentifiers[indexPath.section]
-        if indexPath.row == (snapshot.numberOfItems(inSection: section)-1) && hasMoreMovies {
+//        if indexPath.row == (snapshot.numberOfItems(inSection: section)-1) && hasMoreMovies {
+        if indexPath.row == (snapshot.numberOfItems(inSection: section)-1) {
             let section = snapshot.sectionIdentifiers[indexPath.section]
-            fetchNewPages(for: section)
+//            fetchNewPages(for: section)
+            viewModel.fetchNewPages(for: section, at: currentPage)
         }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -197,9 +191,9 @@ extension HomeViewController: UICollectionViewDelegate {
         let section = snapshot.sectionIdentifiers[indexPath.section]
         let items = snapshot.itemIdentifiers(inSection: section)
         let movie = items[indexPath.row]
-        
+
         let viewController = MovieDetailsViewController(movie: movie)
         present(viewController, animated: true)
-        
+
     }
 }

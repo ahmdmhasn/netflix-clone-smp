@@ -47,9 +47,8 @@ class DiscoverMoviesRemote {
     // https://developers.themoviedb.org/3/search/multi-search
     func searchMulti(query: [String], at page: Int) async throws -> [MovieSearchMulti] {
         let queryString = query.joined(separator: "+")
-        
+
         let urlString = "\(Config.baseURL)search/multi?api_key=\(Config.apiKey)&query=\(queryString)&page=\(page)"
-        print(urlString)
         let results = try await(getResponse(urlString: urlString)) as [MovieSearchMulti]
         return results
     }

@@ -11,9 +11,9 @@ class NetworkingManager {
     static let shared = NetworkingManager()
     private let session = URLSession.shared
     private init() { }
-    func responseData<T: Decodable>(_ request: URLRequest) async throws -> T{
+    func responseData<T: Decodable>(_ request: URLRequest) async throws -> T {
         return try await withCheckedThrowingContinuation { continuation in
-            self.session.dataTask(with: request) { data, response, error in
+            self.session.dataTask(with: request) { data, _, error in
                 guard let data = data else {
                     continuation.resume(throwing: error ?? NSError())
                     return

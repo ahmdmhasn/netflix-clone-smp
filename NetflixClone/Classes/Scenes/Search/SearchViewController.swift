@@ -6,16 +6,20 @@
 //
 
 import UIKit
-
+import Combine
 class SearchViewController: UIViewController {
     // MARK: Properties
+    
+    private var viewModel: SearchViewModel
+    typealias Section = SearchViewModel.Section
+    private var subscribers: [AnyCancellable] = []
+    
     private enum Defaults {
         static let itemsPerPage = 10
         static let imageHeight = 120
     }
-    private let remote = DiscoverMoviesRemote()
+    
     private var currentPage = 1
-    private var hasMoreMovies = true
     private var query: [String] = []
     // MARK: Views
     var stackView: UIStackView! = nil
@@ -23,17 +27,32 @@ class SearchViewController: UIViewController {
     var collectionView: UICollectionView! = nil
     // MARK: Data sources
     var dataSource: UICollectionViewDiffableDataSource<Section, MovieSearchMulti>! = nil
+    
+    init(viewModel: SearchViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureHierarchy()
         configureDataSource()
+        
+        viewModel.$result
+            .receive(on: DispatchQueue.main)
+            .sink { result in
+                if let result = result {
+                    self.updateDataSource(movies: result.newMovies)
+                }
+            }
+            .store(in: &subscribers)
     }
 }
 // MARK: - Configurations
 extension SearchViewController {
-    enum Section: String, CaseIterable {
-        case mainResults = "Main Results"
-    }
     private func configureHierarchy() {
         stackView = UIStackView(frame: view.bounds)
         stackView.axis = .vertical
@@ -60,7 +79,7 @@ extension SearchViewController {
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: inset),
             stackView.topAnchor.constraint(equalTo: margins.topAnchor, constant: inset),
             stackView.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -inset),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -inset),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -inset)
         ])
     }
 }
@@ -78,18 +97,19 @@ extension SearchViewController {
             cell.configureImage(imageUrl: imageUrl)
             return cell
         }
-        setDataSource(movies: [])
+        resetUIDataSource()
     }
-    func setDataSource(movies: [MovieSearchMulti]) {
-        // Initialize the data sources.
+    func resetUIDataSource() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, MovieSearchMulti>()
-        snapshot.appendSections([.mainResults])
-        snapshot.appendItems(movies)
+        snapshot.appendSections([Section.mainResults])
+        snapshot.appendItems([])
         dataSource.apply(snapshot, animatingDifferences: true)
+        currentPage = 1
     }
     func updateDataSource(movies: [MovieSearchMulti]) {
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(movies)
+        if movies.count > 0 { currentPage+=1 }
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
@@ -97,36 +117,15 @@ extension SearchViewController {
 // MARK: - Networking
 extension SearchViewController {
     func newQuery(for section: Section) {
-        guard query.count == 0 else { return }
+        guard query.count > 0 else { return }
         Task {
             do {
-                // Remove all existing movies.
                 collectionView.setContentOffset(.zero, animated: false)
-                var movies: [MovieSearchMulti]
-                self.currentPage = 1
-                setDataSource(movies: [])
-                fetchNewPages(for: section)
+                resetUIDataSource()
+                viewModel.fetchNewPages(for: section, at: currentPage, with: query)
             }
         }
     }
-    func fetchNewPages(for section: Section) {
-        guard query.count == 0 else { return }
-        Task {
-            do {
-                var movies: [MovieSearchMulti]
-                switch section {
-                case .mainResults:
-                    movies = try await remote.searchMulti(query: query, at: currentPage)
-                }
-                self.currentPage += 1
-                self.hasMoreMovies = movies.count > 0
-                updateDataSource(movies: movies)
-            } catch {
-                print("❌ Error: \(error)")
-            }
-        }
-    }
-
 }
 
 extension SearchViewController: UICollectionViewDelegate {
@@ -137,9 +136,9 @@ extension SearchViewController: UICollectionViewDelegate {
     ) {
         let snapshot = dataSource.snapshot()
         let section = snapshot.sectionIdentifiers[indexPath.section]
-        if indexPath.row == (snapshot.numberOfItems(inSection: section)-1) && hasMoreMovies {
+        if indexPath.row == (snapshot.numberOfItems(inSection: section)-1) {
             let section = snapshot.sectionIdentifiers[indexPath.section]
-            fetchNewPages(for: section)
+            viewModel.fetchNewPages(for: section, at: currentPage, with: query)
         }
     }
 }
@@ -158,7 +157,7 @@ extension SearchViewController: UISearchBarDelegate {
 extension SearchViewController {
     private func createLayout() -> UICollectionViewLayout {
         let sectionProvider = {
-            (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment)-> NSCollectionLayoutSection? in
+            (_: Int, _: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             var item: NSCollectionLayoutItem
             var group: NSCollectionLayoutGroup
             var section: NSCollectionLayoutSection
@@ -166,7 +165,7 @@ extension SearchViewController {
                 widthDimension: .fractionalWidth(1),
                 heightDimension: .fractionalHeight(1)
             )
-            item = NSCollectionLayoutItem(layoutSize:  itemSize)
+            item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
                 heightDimension: .absolute(CGFloat(Defaults.imageHeight))
@@ -176,7 +175,7 @@ extension SearchViewController {
             section = NSCollectionLayoutSection(group: group)
             return section
         }
-        
+
         let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
         layout.configuration.interSectionSpacing = 8
         return layout

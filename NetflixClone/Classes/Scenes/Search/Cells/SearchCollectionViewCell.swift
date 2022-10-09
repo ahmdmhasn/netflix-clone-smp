@@ -24,7 +24,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         label = UILabel()
-        
+
         button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackView)
@@ -37,7 +37,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
             stackView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             image.heightAnchor.constraint(equalTo: contentView.heightAnchor),
-            image.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1/1.5),
+            image.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1/1.5)
         ])
     }
     required init?(coder: NSCoder) {
