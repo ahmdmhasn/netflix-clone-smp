@@ -51,7 +51,7 @@ class HomeViewController: UIViewController {
             }
             .store(in: &subscribers)
     }
-
+}
 extension HomeViewController {
     private func initializeSections() {
         Section.allCases.forEach { section in
