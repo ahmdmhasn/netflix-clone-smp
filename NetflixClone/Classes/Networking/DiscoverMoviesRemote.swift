@@ -38,6 +38,11 @@ class DiscoverMoviesRemote {
         let results = try await(getResponse(urlString: urlString)) as [Movie]
         return results
     }
+    func topMovies(at page: Int) async throws -> [Movie] {
+        let urlString = "\(Config.baseURL)discover/movie?api_key=\(Config.apiKey)&page=\(page)&sort_by=vote_count.desc"
+        let results = try await(getResponse(urlString: urlString)) as [Movie]
+        return results
+    }
     // MARK: - Search multi (/search/multi)
     // https://developers.themoviedb.org/3/search/multi-search
     func searchMulti(query: [String], at page: Int) async throws -> [MovieSearchMulti] {
