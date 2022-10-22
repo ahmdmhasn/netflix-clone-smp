@@ -11,7 +11,6 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let homeViewModel = HomeViewModel()
         let homeViewController = makeViewController(controller: HomeViewController(viewModel: homeViewModel), title: "Home", systemName: "house", tag: 0)
         let searchViewModel = SearchViewModel()

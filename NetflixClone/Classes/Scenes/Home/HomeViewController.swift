@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import Combine
 
 class HomeViewController: UIViewController {
@@ -41,20 +42,15 @@ class HomeViewController: UIViewController {
         // MARK: Receivers
         viewModel.$result
             .receive(on: DispatchQueue.main)
-            .sink { result in
-                if let result = result {
-                    var snapshot = self.dataSource.snapshot()
-                    snapshot.appendItems(result.newMovies, toSection: result.section)
-                    self.currentPage+=1
-                    self.dataSource.apply(snapshot, animatingDifferences: false)
-                }
+            .sink { [weak self] result in
+                guard let self = self else { return }
+                self.updateDataSource(movies: result.newMovies)
             }
             .store(in: &subscribers)
     }
 }
 
 extension HomeViewController {
-
     private func initializeSections() {
         Section.allCases.forEach { section in
             viewModel.fetchNewPages(for: section, at: currentPage)
@@ -63,6 +59,7 @@ extension HomeViewController {
 }
 
 extension HomeViewController {
+
     private func configureHierarchy() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         collectionView.delegate = self
@@ -95,7 +92,8 @@ extension HomeViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Movie>
     
     private func configureDataSource() {
-        dataSource = DataSource(collectionView: collectionView) {
+        dataSource = UICollectionViewDiffableDataSource
+        <Section, Movie>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, movie: Movie) -> UICollectionViewCell? in
             let section = Section.allCases[indexPath.section]
             guard let cell = collectionView.dequeueReusableCell(
@@ -116,6 +114,13 @@ extension HomeViewController {
         currentSnapshot.appendSections([.featured, .trending, .discover, .top])
         currentSnapshot.appendItems([])
         dataSource.apply(currentSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateDataSource(movies: [Movie]) {
+        var snapshot = dataSource.snapshot()
+        snapshot.appendItems(movies)
+        if movies.count > 0 { currentPage+=1 }
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -192,8 +197,13 @@ extension HomeViewController: UICollectionViewDelegate {
         let items = snapshot.itemIdentifiers(inSection: section)
         let movie = items[indexPath.row]
 
-        let viewController = MovieDetailsViewController(movie: movie)
-        present(viewController, animated: true)
-
+//        let viewController = MovieDetailsViewController(movie: movie)
+//        present(viewController, animated: true)
+        
+        let infoViewModel = MovieInfoViewModel(movie: movie)
+        let infoView = MovieInfoView(viewModel: infoViewModel)
+        
+        let infoViewUIWrapper = UIHostingController(rootView: infoView)
+        present(infoViewUIWrapper, animated: true)
     }
 }
