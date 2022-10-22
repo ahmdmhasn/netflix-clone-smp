@@ -6,9 +6,27 @@
 //
 
 import Foundation
+import struct SwiftUI.Color
 
 class MovieInfoViewModel {
-    let movie: Movie
+    private let movie: Movie
+    
+    var title: String? {
+        movie.title
+    }
+    var description: String? {
+        movie.overview
+    }
+    var date: String? {
+        movie.releaseDate
+    }
+    var rating: Double? {
+        movie.voteAverage
+    }
+    var ratingColor: Color {
+        ratingColor(rating: rating ?? 0)
+    }
+    
     
     var posterURL: URL? {
         get {
@@ -23,10 +41,24 @@ class MovieInfoViewModel {
 }
 
 
+
 // MARK: - User intent(s)
 
 extension MovieInfoViewModel {
-    func addToFavourites(id: Int) {
+    func addToFavourites() {
         //logic for adding to fav list
+    }
+    
+    func ratingColor(rating: Double) -> Color {
+        switch rating {
+        case 0..<3:
+            return .red
+        case 3..<5:
+            return .orange
+        case 5..<7:
+            return .yellow
+        default:
+            return .green
+        }
     }
 }
