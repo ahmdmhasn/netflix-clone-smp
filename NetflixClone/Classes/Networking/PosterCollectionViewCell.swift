@@ -8,7 +8,6 @@
 import UIKit
 class PosterCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "Poster-Cell-Reuse-Identifier"
-//    let button = UIButton()
     let image = UIImageView()
     override init(frame: CGRect) {
         super.init(frame: frame)

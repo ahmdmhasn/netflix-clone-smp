@@ -11,7 +11,6 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let homeViewModel = HomeViewModel()
         let homeViewController = makeViewController(controller: HomeViewController(viewModel: homeViewModel), title: "Home", systemName: "house", tag: 0)
         let searchViewModel = SearchViewModel()
@@ -19,8 +18,6 @@ class TabBarController: UITabBarController {
         let favouritesViewController = makeViewController(controller: FavouritesViewController(), title: "Favourites", systemName: "star", tag: 2)
         let options = makeViewController(controller: MoreViewController(), title: "More", systemName: "square.and.arrow.up", tag: 3)
         viewControllers = [homeViewController, searchViewController, favouritesViewController, options]
-//        viewControllers = [searchViewController, favouritesViewController, options]
-
     }
     func makeViewController(
         controller: UIViewController,

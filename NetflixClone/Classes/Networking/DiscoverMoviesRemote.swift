@@ -61,4 +61,12 @@ extension DiscoverMoviesRemote {
         let responseModel = try await networking.responseData(urlRequest) as PaginatedList<ResultType>
         return responseModel.results
     }
+    
+    func topMovies(at page: Int) async throws -> [Movie] {
+        let url = URL(string:"\(Config.baseURL)discover/movie?api_key=\(Config.apiKey)&page=\(page)&sort_by=vote_count.desc")!
+        let urlRequest = URLRequest(url: url)
+        let responseModel = try await networking.responseData(urlRequest) as PaginatedList<Movie>
+        return responseModel.results
+    }
+    
 }

@@ -51,7 +51,6 @@ class HomeViewController: UIViewController {
             }
             .store(in: &subscribers)
     }
-}
 
 extension HomeViewController {
     private func initializeSections() {
@@ -62,6 +61,7 @@ extension HomeViewController {
 }
 
 extension HomeViewController {
+
     private func configureHierarchy() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         collectionView.delegate = self
@@ -179,10 +179,8 @@ extension HomeViewController: UICollectionViewDelegate {
     ) {
         let snapshot = dataSource.snapshot()
         let section = snapshot.sectionIdentifiers[indexPath.section]
-//        if indexPath.row == (snapshot.numberOfItems(inSection: section)-1) && hasMoreMovies {
         if indexPath.row == (snapshot.numberOfItems(inSection: section)-1) {
             let section = snapshot.sectionIdentifiers[indexPath.section]
-//            fetchNewPages(for: section)
             viewModel.fetchNewPages(for: section, at: currentPage)
         }
     }

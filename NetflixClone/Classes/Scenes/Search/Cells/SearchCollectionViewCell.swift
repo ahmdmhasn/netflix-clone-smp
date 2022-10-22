@@ -1,8 +1,14 @@
+////
+////  SearchCollectionViewCell.swift
+////  NetflixClone
+////
+////  Created by Joseph Ching on 2022-09-11.
+////
 //
-//  SearchCollectionViewCell.swift
-//  NetflixClone
+//import UIKit
+//import Kingfisher
 //
-//  Created by Joseph Ching on 2022-09-11.
+//class SearchCollectionViewCell: UICollectionViewCell {
 //
 
 import UIKit
@@ -53,3 +59,4 @@ extension SearchCollectionViewCell {
         image.setImage(with: imageUrl)
     }
 }
+
