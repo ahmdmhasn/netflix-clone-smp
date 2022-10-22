@@ -93,3 +93,5 @@ iOSInjectionProject/
 NetworkConfiguration.swift
 *.xcuserstate
 .DS_Store
+IDEWorkspaceChecks.plist
+contents.xcworkspacedata

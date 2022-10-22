@@ -43,10 +43,8 @@ class HomeViewController: UIViewController {
         viewModel.$result
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
-                if let result = result {
-                    guard let self = self else { return }
-                    self.updateDataSource(movies: result.newMovies)
-                }
+                guard let self = self else { return }
+                self.updateDataSource(movies: result.newMovies)
             }
             .store(in: &subscribers)
     }

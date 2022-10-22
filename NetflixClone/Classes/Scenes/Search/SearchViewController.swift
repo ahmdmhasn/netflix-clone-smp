@@ -53,7 +53,6 @@ class SearchViewController: UIViewController {
             .sink { [weak self] result in
                 self?.updateDataSource(movies: result.newMovies)
             }
-            }
             .store(in: &subscribers)
     }
 }
