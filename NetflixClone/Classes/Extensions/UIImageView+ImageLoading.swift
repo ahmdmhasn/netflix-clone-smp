@@ -14,7 +14,7 @@ extension UIImageView {
         kf.setImage(
             with: url,
             options: [
-                .transition(.fade(1)),
+                .transition(.fade(1))
             ])
     }
     func setImage(with urlString: String ) {
@@ -22,4 +22,3 @@ extension UIImageView {
         setImage(with: url)
     }
 }
-

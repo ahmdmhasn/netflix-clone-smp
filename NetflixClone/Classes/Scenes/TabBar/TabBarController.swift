@@ -11,23 +11,21 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let homeViewController = makeViewController(controller: HomeViewController(), title: "Home", systemName: "house", tag: 0)
-//        let searchViewController = makeViewController(controller: SearchViewController(), title: "Search", systemName: "magnifyingglass", tag: 1)
-        let favouritesVieController = makeViewController(controller: FavouritesViewController(), title: "Favourites", systemName: "star", tag: 2)
+        
+        let homeViewModel = HomeViewModel()
+        let homeViewController = makeViewController(controller: HomeViewController(viewModel: homeViewModel), title: "Home", systemName: "house", tag: 0)
+        let searchViewModel = SearchViewModel()
+        let searchViewController = makeViewController(controller: SearchViewController(viewModel: searchViewModel), title: "Search", systemName: "magnifyingglass", tag: 1)
+        let favouritesViewController = makeViewController(controller: FavouritesViewController(), title: "Favourites", systemName: "star", tag: 2)
         let options = makeViewController(controller: MoreViewController(), title: "More", systemName: "square.and.arrow.up", tag: 3)
-//        viewControllers = [homeViewController, searchViewController, favouritesVieController, options]
-        viewControllers = [homeViewController, favouritesVieController, options]
-
+        viewControllers = [homeViewController, searchViewController, favouritesViewController, options]
     }
-    
     func makeViewController(
         controller: UIViewController,
         title: String,
-        systemName : String,
+        systemName: String,
         tag: Int
-    ) -> UINavigationController
-    {
+    ) -> UINavigationController {
         controller.tabBarItem = UITabBarItem(
             title: title,
             image: UIImage(systemName: systemName),
