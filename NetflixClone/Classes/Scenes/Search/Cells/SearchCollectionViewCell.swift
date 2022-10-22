@@ -59,4 +59,3 @@ extension SearchCollectionViewCell {
         image.setImage(with: imageUrl)
     }
 }
-

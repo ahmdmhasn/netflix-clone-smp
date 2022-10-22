@@ -51,6 +51,7 @@ class HomeViewController: UIViewController {
             .store(in: &subscribers)
     }
 }
+
 extension HomeViewController {
     private func initializeSections() {
         Section.allCases.forEach { section in
@@ -90,6 +91,8 @@ extension HomeViewController {
             }
         }
     }
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, Movie>
+    
     private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
         <Section, Movie>(collectionView: collectionView) {
