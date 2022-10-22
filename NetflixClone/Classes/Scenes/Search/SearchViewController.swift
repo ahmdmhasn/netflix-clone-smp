@@ -43,10 +43,10 @@ class SearchViewController: UIViewController {
         
         viewModel.$result
             .receive(on: DispatchQueue.main)
-            .sink { result in
-                if let result = result {
-                    self.updateDataSource(movies: result.newMovies)
-                }
+            .compactMap { $0 }
+            .sink { [weak self] result in
+                self?.updateDataSource(movies: result.newMovies)
+            }
             }
             .store(in: &subscribers)
     }
