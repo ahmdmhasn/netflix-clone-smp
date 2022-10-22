@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import Combine
 
 class HomeViewController: UIViewController {
@@ -41,12 +42,10 @@ class HomeViewController: UIViewController {
         // MARK: Receivers
         viewModel.$result
             .receive(on: DispatchQueue.main)
-            .sink { result in
+            .sink { [weak self] result in
                 if let result = result {
-                    var snapshot = self.dataSource.snapshot()
-                    snapshot.appendItems(result.newMovies, toSection: result.section)
-                    self.currentPage+=1
-                    self.dataSource.apply(snapshot, animatingDifferences: false)
+                    guard let self = self else { return }
+                    self.updateDataSource(movies: result.newMovies)
                 }
             }
             .store(in: &subscribers)
@@ -114,6 +113,13 @@ extension HomeViewController {
         currentSnapshot.appendSections([.featured, .trending, .discover, .top])
         currentSnapshot.appendItems([])
         dataSource.apply(currentSnapshot, animatingDifferences: false)
+    }
+    
+    private func updateDataSource(movies: [Movie]) {
+        var snapshot = dataSource.snapshot()
+        snapshot.appendItems(movies)
+        if movies.count > 0 { currentPage+=1 }
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -190,8 +196,13 @@ extension HomeViewController: UICollectionViewDelegate {
         let items = snapshot.itemIdentifiers(inSection: section)
         let movie = items[indexPath.row]
 
-        let viewController = MovieDetailsViewController(movie: movie)
-        present(viewController, animated: true)
-
+//        let viewController = MovieDetailsViewController(movie: movie)
+//        present(viewController, animated: true)
+        
+        let infoViewModel = MovieInfoViewModel(id: movie.id,title: movie.title, posterPath: movie.posterPath, description: movie.overview, rating: movie.voteAverage, date: movie.releaseDate)
+        let infoView = MovieInfoView(viewModel: infoViewModel)
+        
+        let infoViewUIWrapper = UIHostingController(rootView: infoView)
+        present(infoViewUIWrapper, animated: true)
     }
 }

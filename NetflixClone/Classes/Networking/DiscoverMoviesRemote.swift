@@ -31,6 +31,7 @@ class DiscoverMoviesRemote {
     func trendingMovies(at page: Int, type: MediaType, time: TimeWindow ) async throws -> [Movie] {
         let urlString = "\(Config.baseURL)trending/\(type.rawValue)/\(time.rawValue)?api_key=\(Config.apiKey)&page=\(page)"
         let results = try await(getResponse(urlString: urlString)) as [Movie]
+
         return results
     }
     func featuredMovies(at page: Int, type: MediaType, time: TimeWindow ) async throws -> [Movie] {
@@ -61,4 +62,5 @@ extension DiscoverMoviesRemote {
         let responseModel = try await networking.responseData(urlRequest) as PaginatedList<ResultType>
         return responseModel.results
     }
+    
 }
