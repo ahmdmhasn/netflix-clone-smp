@@ -1,3 +1,9 @@
+////
+////  SearchViewController.swift
+////  NetflixClone
+////
+////  Created by Joseph Ching on 2022-09-11.
+////
 //
 //  SearchViewController.swift
 //  NetflixClone

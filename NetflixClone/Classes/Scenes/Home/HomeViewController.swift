@@ -54,6 +54,7 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController {
+
     private func initializeSections() {
         Section.allCases.forEach { section in
             viewModel.fetchNewPages(for: section, at: currentPage)
