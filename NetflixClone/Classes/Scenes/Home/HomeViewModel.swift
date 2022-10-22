@@ -16,7 +16,7 @@ class HomeViewModel {
     
     var cancellables: Set<AnyCancellable> = []
         
-    @Published var result: NewMovies? = NewMovies(newMovies: [], section: .featured)
+    @Published private(set) var result = NewMovies(newMovies: [], section: .featured)
     
     struct NewMovies {
         var newMovies: [Movie]
