@@ -91,9 +91,10 @@ extension HomeViewController {
             }
         }
     }
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, Movie>
+    
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource
-        <Section, Movie>(collectionView: collectionView) {
+        dataSource = DataSource(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, movie: Movie) -> UICollectionViewCell? in
             let section = Section.allCases[indexPath.section]
             guard let cell = collectionView.dequeueReusableCell(
