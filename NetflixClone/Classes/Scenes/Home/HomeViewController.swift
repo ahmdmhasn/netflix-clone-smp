@@ -200,7 +200,7 @@ extension HomeViewController: UICollectionViewDelegate {
 //        let viewController = MovieDetailsViewController(movie: movie)
 //        present(viewController, animated: true)
         
-        let infoViewModel = MovieInfoViewModel(id: movie.id,title: movie.title, posterPath: movie.posterPath, description: movie.overview, rating: movie.voteAverage, date: movie.releaseDate)
+        let infoViewModel = MovieInfoViewModel(movie: movie)
         let infoView = MovieInfoView(viewModel: infoViewModel)
         
         let infoViewUIWrapper = UIHostingController(rootView: infoView)

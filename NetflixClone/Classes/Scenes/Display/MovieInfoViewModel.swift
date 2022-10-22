@@ -8,30 +8,17 @@
 import Foundation
 
 class MovieInfoViewModel {
-    var id: Int
-    var title: String?
-    var posterPath: String?
-    var description: String?
-    var rating: Double?
-    var date: String?
+    let movie: Movie
+    
     var posterURL: URL? {
         get {
-            guard let posterPath = posterPath else { return nil }
-            if let imageUrl = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)"){
-                return imageUrl
-            } else {
-                return nil
-            }
+            guard let posterPath = movie.posterPath else { return nil }
+            return URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)")
         }
     }
     
-    init(id: Int, title: String?, posterPath: String?, description: String?, rating: Double?, date: String? ) {
-        self.id = id
-        self.title = title
-        self.posterPath = posterPath
-        self.description = description
-        self.rating = rating
-        self.date = date
+    init(movie: Movie) {
+        self.movie = movie
     }
 }
 
