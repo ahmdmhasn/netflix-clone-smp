@@ -21,7 +21,7 @@ class HomeViewController: UIViewController {
     fileprivate let sectionHeaderElementKind = "SectionHeader"
     var collectionView: UICollectionView! = nil
     private var currentPage = 1
-    
+    let favoriteService = FavoriteMoviesStorage()
 
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -32,7 +32,7 @@ class HomeViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +47,27 @@ class HomeViewController: UIViewController {
                 self.updateDataSource(movies: result.newMovies)
             }
             .store(in: &subscribers)
+
+        let movie = Movie(id: 1,
+                          adult: nil,
+                          backdropPath: nil,
+                          genreIDS: [],
+                          originalLanguage: nil,
+                          originalTitle: nil,
+                          overview: nil,
+                          popularity: nil,
+                          posterPath: nil,
+                          releaseDate: "2011",
+                          title: "Intersteller",
+                          video: nil,
+                          voteAverage: nil,
+                          voteCount: 35_000)
+//        favoriteService.addMovieToFavorite(movie)
+        
+        favoriteService.deleteMovieFromFavorite(movie)
+        
+        let movies = favoriteService.fetchFavoriteMovies()
+        print("Fetched movies: \(movies)")
     }
 }
 
@@ -55,6 +76,7 @@ extension HomeViewController {
         Section.allCases.forEach { section in
             viewModel.fetchNewPages(for: section, at: currentPage)
         }
+        configureDataSource()
     }
 }
 
