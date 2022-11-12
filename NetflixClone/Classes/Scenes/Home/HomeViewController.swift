@@ -37,8 +37,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureHierarchy()
-        initializeSections()
         configureDataSource()
+        initializeDataSource()
         // MARK: Receivers
         viewModel.$result
             .receive(on: DispatchQueue.main)
@@ -51,10 +51,15 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController {
-    private func initializeSections() {
+    private func initializeDataSource() {
+        guard let dataSource = dataSource else { return }
+
+        currentSnapshot = NSDiffableDataSourceSnapshot<Section, Movie>()
+        currentSnapshot.appendSections(Section.allCases)
         Section.allCases.forEach { section in
             viewModel.fetchNewPages(for: section, at: currentPage)
         }
+        dataSource.apply(currentSnapshot, animatingDifferences: false)
     }
     
     private func updateDataSource(movies: [Movie], to section: Section) {
@@ -96,8 +101,8 @@ extension HomeViewController {
             }
         }
     }
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Movie>
     
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, Movie>
     private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
         <Section, Movie>(collectionView: collectionView) {
@@ -115,19 +120,6 @@ extension HomeViewController {
         dataSource.supplementaryViewProvider = { collectionView, _, indexPath in
             return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
         }
-
-        // Initialize the data sources.
-        currentSnapshot = NSDiffableDataSourceSnapshot<Section, Movie>()
-        currentSnapshot.appendSections([.featured, .trending, .discover, .top])
-        currentSnapshot.appendItems([])
-        dataSource.apply(currentSnapshot, animatingDifferences: false)
-    }
-    
-    private func updateDataSource(movies: [Movie]) {
-        var snapshot = dataSource.snapshot()
-        snapshot.appendItems(movies)
-        if movies.count > 0 { currentPage+=1 }
-        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
