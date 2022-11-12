@@ -44,7 +44,7 @@ class HomeViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
                 guard let self = self else { return }
-                self.updateDataSource(movies: result.newMovies)
+                self.updateDataSource(movies: result.newMovies, to: result.section)
             }
             .store(in: &subscribers)
     }
@@ -55,6 +55,13 @@ extension HomeViewController {
         Section.allCases.forEach { section in
             viewModel.fetchNewPages(for: section, at: currentPage)
         }
+    }
+    
+    private func updateDataSource(movies: [Movie], to section: Section) {
+        var snapshot = dataSource.snapshot()
+        snapshot.appendItems(movies, toSection: section)
+        if movies.count > 0 { currentPage+=1 }
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -197,8 +204,6 @@ extension HomeViewController: UICollectionViewDelegate {
         let items = snapshot.itemIdentifiers(inSection: section)
         let movie = items[indexPath.row]
 
-//        let viewController = MovieDetailsViewController(movie: movie)
-//        present(viewController, animated: true)
         
         let infoViewModel = MovieInfoViewModel(movie: movie)
         let infoView = MovieInfoView(viewModel: infoViewModel)
