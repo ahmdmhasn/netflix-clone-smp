@@ -16,8 +16,8 @@ class HomeViewController: UIViewController {
     private var viewModel: HomeViewModel
     private var subscribers: [AnyCancellable] = []
 
-    var dataSource: UICollectionViewDiffableDataSource<Section, Movie>! = nil
-    var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Movie>! = nil
+    var dataSource: UICollectionViewDiffableDataSource<Section, Int>! = nil
+    var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Int>! = nil
     fileprivate let sectionHeaderElementKind = "SectionHeader"
     var collectionView: UICollectionView! = nil
     private var currentPage = 1
@@ -40,11 +40,11 @@ class HomeViewController: UIViewController {
         configureDataSource()
         initializeDataSource()
         // MARK: Receivers
-        viewModel.$result
+        viewModel.$fetchedMovieIds
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
                 guard let self = self else { return }
-                self.updateDataSource(movies: result.newMovies, to: result.section)
+                self.updateDataSource(movies: result.newMoviesIds, to: result.section)
             }
             .store(in: &subscribers)
     }
@@ -54,7 +54,7 @@ extension HomeViewController {
     private func initializeDataSource() {
         guard let dataSource = dataSource else { return }
 
-        currentSnapshot = NSDiffableDataSourceSnapshot<Section, Movie>()
+        currentSnapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         currentSnapshot.appendSections(Section.allCases)
         Section.allCases.forEach { section in
             viewModel.fetchNewPages(for: section, at: currentPage)
@@ -62,7 +62,7 @@ extension HomeViewController {
         dataSource.apply(currentSnapshot, animatingDifferences: false)
     }
     
-    private func updateDataSource(movies: [Movie], to section: Section) {
+    private func updateDataSource(movies: [Int], to section: Section) {
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(movies, toSection: section)
         if movies.count > 0 { currentPage+=1 }
@@ -102,19 +102,25 @@ extension HomeViewController {
         }
     }
     
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Movie>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, Int>
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource
-        <Section, Movie>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, movie: Movie) -> UICollectionViewCell? in
-            let section = Section.allCases[indexPath.section]
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "\(PosterCollectionViewCell.reuseIdentifier)",
-                for: indexPath) as?  PosterCollectionViewCell else { fatalError("Cannot Create cell") }
+        
+        let cellRegistration = UICollectionView.CellRegistration<PosterCollectionViewCell, Int>(){
+            [weak self] cell, indexPath, movieId in
+            guard let self = self else { return }
+            guard let movie = self.viewModel.fetchMovieById(id: movieId) else {
+                fatalError("Error: MovieId does not exist in MovieStore.")
+            }
             let imageUrl = "https://image.tmdb.org/t/p/w500/\(movie.posterPath ?? "")"
             cell.configureImage(imageUrl: imageUrl)
-            cell.applyEffects(for: section)
-            return cell
+            cell.applyEffects()
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource <Section, Int>(collectionView: collectionView){
+            (collectionView: UICollectionView, indexPath: IndexPath, movieId: Int) in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                for: indexPath,
+                                                                item: movieId)
         }
         let headerRegistration = createSectionHeaderRegistration()
         dataSource.supplementaryViewProvider = { collectionView, _, indexPath in
@@ -194,9 +200,9 @@ extension HomeViewController: UICollectionViewDelegate {
         let snapshot = dataSource.snapshot()
         let section = snapshot.sectionIdentifiers[indexPath.section]
         let items = snapshot.itemIdentifiers(inSection: section)
-        let movie = items[indexPath.row]
+        let movieId = items[indexPath.row]
 
-        
+        guard let movie = viewModel.fetchMovieById(id: movieId) else { return }
         let infoViewModel = MovieInfoViewModel(movie: movie)
         let infoView = MovieInfoView(viewModel: infoViewModel)
         
