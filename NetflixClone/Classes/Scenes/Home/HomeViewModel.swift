@@ -12,14 +12,14 @@ class HomeViewModel {
     
     // MARK: - Properties
     private let remote = DiscoverMoviesRemote()
+    private let movieStore = MovieStore()
     private var hasMoreMovies = true
-    
     var cancellables: Set<AnyCancellable> = []
-        
-    @Published private(set) var result = NewMovies(newMovies: [], section: .featured)
+    
+    @Published private(set) var fetchedMovieIds = NewMovies(newMoviesIds: [], section: .featured)
     
     struct NewMovies {
-        var newMovies: [Movie]
+        var newMoviesIds: [Int]
         var section: Section
     }
 
@@ -48,11 +48,16 @@ class HomeViewModel {
                 }
                 self.hasMoreMovies = movies.count > 0
                 guard hasMoreMovies else { return }
-                result = NewMovies(newMovies: movies, section: section)
+                
+                movieStore.addMovies(movies: movies)
+                fetchedMovieIds = NewMovies(newMoviesIds: movies.map{$0.id}, section: section)
             } catch {
                 print("❌ Error: \(error)")
             }
         }
+    }
+    func fetchMovieById(id: Int) -> Movie? {
+        return movieStore.fetchMovieById(id: id)
     }
     
 }
