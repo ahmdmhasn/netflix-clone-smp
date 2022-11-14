@@ -30,7 +30,7 @@ extension PosterCollectionViewCell {
             image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset)
         ])
     }
-    func applyEffects(for section: HomeViewController.Section) {
+    func applyEffects() {
         self.contentView.layer.cornerRadius = 10.0
         self.contentView.layer.borderWidth = 1.0
         self.contentView.layer.borderColor = UIColor.clear.cgColor
